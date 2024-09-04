@@ -16,22 +16,22 @@ public class DataGenerator {
         return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
-    //public static String generateCity(String locale) {
-        //String[] city = {"Сочи", "Москва", "Архангельск", "Санкт-Петербург", "Барнаул", "Якутск",
-                //"Липецк", "Новосибирск", "Великий Новгород", "Владивосток",
-                //"Киров", "Екатеринбург", "Волгоград", "Коломна", "Воронеж", "Пермь", "Ярославль",
-                //"Грозный", "Пенза", "Самара", "Рязань", "Зеленоград",
-                //"Йошкар-Ола", "Казань", "Калининград", "Орёл",
-                //"Уфа", "Тула", "Кострома", "Тамбов", "Тверь", "Курган"};
+    public static String generateCity(String locale) {
+        String[] city = {"Сочи", "Москва", "Архангельск", "Санкт-Петербург", "Барнаул", "Якутск",
+                "Липецк", "Новосибирск", "Великий Новгород", "Владивосток",
+                "Киров", "Екатеринбург", "Волгоград", "Коломна", "Воронеж", "Пермь", "Ярославль",
+                "Грозный", "Пенза", "Самара", "Рязань",
+                "Йошкар-Ола", "Казань", "Калининград", "Орёл",
+                "Уфа", "Тула", "Кострома", "Тамбов", "Тверь", "Курган"};
 
-        //return city[new Random().nextInt(city.length)];
-    //
-    //}
+        return city[new Random().nextInt(city.length)];
 
-    public static String generateCity(String local){
-        Faker faker = new Faker(new Locale(local));
-        return faker.address().city();
     }
+
+    //public static String generateCity(String local){
+        //Faker faker = new Faker(new Locale(local));
+        //return faker.address().city();
+    //}
 
     public static String generateName(String locale) {
         String name = new Faker(new Locale(locale)).name().fullName();
