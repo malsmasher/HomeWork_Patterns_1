@@ -2,22 +2,31 @@ package ru.netology;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.Keys;
 import ru.netology.data.DataGenerator;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 
 public class ChangeDateTest {
+
+    @BeforeAll
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
 
     @BeforeEach
     void setup() {
@@ -58,4 +67,26 @@ public class ChangeDateTest {
                 .shouldBe(visible, Duration.ofSeconds(15))
                 .shouldHave(text("Встреча успешно запланирована на " + secondMeetingDate));
     }
+
+    @Test
+    @DisplayName("Should get massage if entered wrong phone")
+    void shouldGetErrorIfWrongPhone() {
+        var daysToAddForFirstMeeting = 5;
+        var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
+        var daysToAddForSecondMeeting = 7;
+
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity("ru"));
+        $("[data-test-id='date'] input").sendKeys(Keys.CONTROL + "a", Keys.DELETE);
+        $("[data-test-id='date'] input").setValue(firstMeetingDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generateWrongPhone("ru"));
+        $("[data-test-id='agreement']").click();
+        $(byText("Запланировать")).click();
+        $("[data-test-id='phone'] .input_invalid .input__sub").shouldHave(exactText("Неверный формат номера мобильного телефона"));
+
+
+    }
+
+
+
 }

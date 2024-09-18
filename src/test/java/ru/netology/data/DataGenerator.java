@@ -17,7 +17,7 @@ public class DataGenerator {
     }
 
     public static String generateCity(String locale) {
-        String[] city = {"Сочи", "Москва", "Архангельск", "Санкт-Петербург", "Барнаул", "Якутск",
+        String[] city = { "Москва", "Архангельск", "Санкт-Петербург", "Барнаул", "Якутск",
                 "Липецк", "Новосибирск", "Великий Новгород", "Владивосток",
                 "Киров", "Екатеринбург", "Волгоград", "Коломна", "Воронеж", "Пермь", "Ярославль",
                 "Грозный", "Пенза", "Самара", "Рязань",
@@ -41,6 +41,11 @@ public class DataGenerator {
     public static String generatePhone(String locale) {
         String phone = new Faker(new Locale(locale)).phoneNumber().phoneNumber();
         return phone;
+    }
+
+    public static String generateWrongPhone(String locale) {
+        var faker = new Faker(new Locale(locale));
+        return faker.numerify("####");
     }
 
     public static class Registration {
